@@ -13,7 +13,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -77,12 +76,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+        menu.findItem(R.id.action_dev_mode).isVisible = BuildConfig.DEBUG  // dev log: debug builds only
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         if (item.itemId == R.id.action_dev_mode) {
-            Toast.makeText(this, "Developer mode — phase 4", Toast.LENGTH_SHORT).show(); true
+            navController.navigate(R.id.developerFragment); true
         } else super.onOptionsItemSelected(item)
 
     override fun onSupportNavigateUp(): Boolean =

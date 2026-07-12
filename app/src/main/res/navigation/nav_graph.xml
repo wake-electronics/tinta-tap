@@ -21,4 +21,10 @@
         tools:layout="@layout/fragment_detail">
         <argument android:name="actionId" app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/developerFragment"
+        android:name="com.wakeelectronics.tintatap.ui.DeveloperFragment"
+        android:label="Developer mode"
+        tools:layout="@layout/fragment_developer" />
 </navigation>
