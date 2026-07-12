@@ -51,13 +51,28 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
         tvInstantDesc = view.findViewById(R.id.tvInstantDesc)
         tvPending = view.findViewById(R.id.tvPending)
 
-        when (action.type) {
-            ActionType.BOOK -> setupBook(view)
-            ActionType.MESSAGE -> setupMessage(view)
-            ActionType.SKETCH -> setupSketch(view)
-            ActionType.PAGE, ActionType.DECISION -> setupInstant(view)
+        if (action.placeholder) {
+            setupPlaceholder(view)
+        } else {
+            when (action.type) {
+                ActionType.BOOK -> setupBook(view)
+                ActionType.MESSAGE -> setupMessage(view)
+                ActionType.SKETCH -> setupSketch(view)
+                ActionType.PAGE, ActionType.DECISION -> setupInstant(view)
+            }
+            rearm()
         }
-        rearm()
+    }
+
+    private fun setupPlaceholder(view: View) {
+        view.findViewById<View>(R.id.cardInstant).visibility = View.VISIBLE
+        view.findViewById<View>(R.id.cardTap).visibility = View.GONE
+        tvInstantDesc.text = when (action.id) {
+            "webui" -> "Would open the Tinta's Wi-Fi setup / web interface (like pressing button 3). Not available yet — needs a firmware opcode."
+            "properties" -> "Would print the device's properties (from the web interface) to the e-paper. Not available yet — needs a firmware change."
+            else -> "Not available yet — needs a Tinta firmware update."
+        }
+        viewModel.arm(null)
     }
 
     private fun setupBook(view: View) {

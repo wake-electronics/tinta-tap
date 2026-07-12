@@ -121,7 +121,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <!-- TAP HERO (shared) -->
-        <com.google.android.material.card.MaterialCardView style="@style/TintaCard">
+        <com.google.android.material.card.MaterialCardView android:id="@+id/cardTap" style="@style/TintaCard">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                 android:orientation="vertical" android:gravity="center" android:padding="18dp">
                 <ImageView android:layout_width="56dp" android:layout_height="56dp"

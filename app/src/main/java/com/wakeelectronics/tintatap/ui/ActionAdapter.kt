@@ -42,6 +42,7 @@ class ActionAdapter(
         holder.card.strokeColor = ContextCompat.getColor(
             holder.card.context, if (isLast) R.color.tinta_primary else R.color.tinta_border
         )
+        holder.itemView.alpha = if (a.placeholder) 0.55f else 1f
         holder.itemView.setOnClickListener { onClick(a) }
     }
 
@@ -56,6 +57,8 @@ class ActionAdapter(
     private fun iconFor(a: Action): Int = when (a.iconKey) {
         "clock" -> R.drawable.ic_action_clock
         "video" -> R.drawable.ic_action_video
+        "wifi" -> R.drawable.ic_action_wifi
+        "info" -> R.drawable.ic_action_info
         else -> when (a.type) {
             ActionType.PAGE -> R.drawable.ic_action_home
             ActionType.DECISION -> R.drawable.ic_action_decide

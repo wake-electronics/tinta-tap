@@ -16,7 +16,8 @@ data class Action(
     val type: ActionType,
     val builtIn: Boolean = true,
     val presetText: String = "",
-    val iconKey: String = ""
+    val iconKey: String = "",
+    val placeholder: Boolean = false
 ) {
     val opcode: Opcode
         get() = when (type) {
@@ -39,6 +40,8 @@ object DefaultActions {
         Action("sketch", "Sketch", "Draw an image", ActionType.SKETCH),
         Action("book", "Book a desk", "Book a workspace", ActionType.BOOK),
         Action("preset_back15", "Back in 15 min", "Message preset", ActionType.MESSAGE, presetText = "Back in 15 min", iconKey = "clock"),
-        Action("preset_video", "In a video call", "Message preset", ActionType.MESSAGE, presetText = "In a video call", iconKey = "video")
+        Action("preset_video", "In a video call", "Message preset", ActionType.MESSAGE, presetText = "In a video call", iconKey = "video"),
+        Action("webui", "Start web interface", "Wi-Fi setup (button 3)", ActionType.PAGE, iconKey = "wifi", placeholder = true),
+        Action("properties", "Show Tinta properties", "Device info to the screen", ActionType.PAGE, iconKey = "info", placeholder = true)
     )
 }
