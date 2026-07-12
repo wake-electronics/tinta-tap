@@ -53,7 +53,12 @@ class MainViewModel : ViewModel() {
     // the guard has to live on the client. (Kept from the original; now in one named place.)
     @Volatile private var lastWriteSuccessMs = 0L
 
-    fun onTag(tag: Tag, request: TapRequest) {
+    /** The request the active detail screen has prepared; a tap fires this. */
+    @Volatile private var pending: TapRequest? = null
+    fun arm(request: TapRequest?) { pending = request }
+
+    fun onTag(tag: Tag) {
+        val request = pending ?: run { _log.tryEmit("No action selected"); return }
         if (_state.value is WriteState.Writing) {
             _log.tryEmit("Busy: still processing previous tap")
             return
