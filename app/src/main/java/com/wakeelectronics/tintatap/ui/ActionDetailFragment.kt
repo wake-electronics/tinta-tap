@@ -175,7 +175,7 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.arm(null)
-        canvas.onChange = null
+        // Keep the request armed so a tap still fires while you're on Developer mode / the grid.
+        if (::canvas.isInitialized) canvas.onChange = null
     }
 }
