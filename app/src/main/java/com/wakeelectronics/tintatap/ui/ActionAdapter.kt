@@ -36,6 +36,7 @@ class ActionAdapter(
         val a = items[position]
         holder.name.text = a.name
         holder.subtitle.text = a.subtitle
+        holder.subtitle.visibility = if (a.subtitle.isEmpty()) View.GONE else View.VISIBLE
         holder.icon.setImageResource(iconFor(a))
         val isLast = a.id == lastUsedId
         holder.badge.visibility = if (isLast) View.VISIBLE else View.GONE

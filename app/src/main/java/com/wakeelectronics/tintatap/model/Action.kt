@@ -35,7 +35,7 @@ data class Action(
 object DefaultActions {
     val list: List<Action> = listOf(
         Action("home", "Home", "The default screen", ActionType.PAGE),
-        Action("decide", "Universal decision maker", "Random pick", ActionType.DECISION),
+        Action("decide", "Universal decision maker", "", ActionType.DECISION),
         Action("message", "Message", "Write text to show", ActionType.MESSAGE),
         Action("sketch", "Sketch", "Draw an image", ActionType.SKETCH),
         Action("book", "Book a desk", "Book a workspace", ActionType.BOOK),

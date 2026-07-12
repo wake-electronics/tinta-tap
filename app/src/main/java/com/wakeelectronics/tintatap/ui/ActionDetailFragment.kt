@@ -120,7 +120,8 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
         view.findViewById<MaterialButton>(R.id.btnUndo).setOnClickListener { canvas.undo() }
         view.findViewById<MaterialButton>(R.id.btnInvert).setOnClickListener { canvas.invert() }
         view.findViewById<MaterialButton>(R.id.btnClear).setOnClickListener { canvas.clear() }
-        canvas.onChange = { rearm() }
+        store.sketchBytes?.let { canvas.load(it) }
+        canvas.onChange = { store.sketchBytes = canvas.pack(); rearm() }
     }
 
     private fun setupInstant(view: View) {

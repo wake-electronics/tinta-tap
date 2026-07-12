@@ -1,6 +1,7 @@
 package com.wakeelectronics.tintatap.data
 
 import android.content.Context
+import android.util.Base64
 import com.wakeelectronics.tintatap.model.Action
 import com.wakeelectronics.tintatap.model.ActionType
 import com.wakeelectronics.tintatap.model.DefaultActions
@@ -41,6 +42,15 @@ class ActionStore(context: Context) {
     var messageText: String
         get() = prefs.getString("message_text", "").orEmpty()
         set(value) { prefs.edit().putString("message_text", value).apply() }
+
+    var sketchBytes: ByteArray?
+        get() {
+            val s = prefs.getString("sketch_b64", null) ?: return null
+            return try { Base64.decode(s, Base64.DEFAULT) } catch (e: Exception) { null }
+        }
+        set(value) {
+            prefs.edit().putString("sketch_b64", value?.let { Base64.encodeToString(it, Base64.DEFAULT) }).apply()
+        }
 
     fun addPreset(action: Action) {
         val arr = JSONArray()

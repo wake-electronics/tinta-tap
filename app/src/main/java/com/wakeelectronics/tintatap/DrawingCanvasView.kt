@@ -234,4 +234,14 @@ class DrawingCanvasView @JvmOverloads constructor(
         }
         return out
     }
+
+    /** Restore pixels from a [pack]ed byte array (MSB-first, row-major). */
+    fun load(bytes: ByteArray) {
+        for (i in pixels.indices) {
+            val b = i / 8
+            pixels[i] = b < bytes.size && (bytes[b].toInt() and (0x80 ushr (i % 8))) != 0
+        }
+        undoStack.clear()
+        invalidate()
+    }
 }
