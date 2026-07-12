@@ -15,7 +15,8 @@ data class Action(
     val subtitle: String,
     val type: ActionType,
     val builtIn: Boolean = true,
-    val presetText: String = ""
+    val presetText: String = "",
+    val iconKey: String = ""
 ) {
     val opcode: Opcode
         get() = when (type) {
@@ -33,9 +34,11 @@ data class Action(
 object DefaultActions {
     val list: List<Action> = listOf(
         Action("home", "Home", "The default screen", ActionType.PAGE),
-        Action("decide", "Decide for me", "Random pick", ActionType.DECISION),
+        Action("decide", "Universal decision maker", "Random pick", ActionType.DECISION),
         Action("message", "Message", "Write text to show", ActionType.MESSAGE),
         Action("sketch", "Sketch", "Draw an image", ActionType.SKETCH),
-        Action("book", "Book a desk", "Book a workspace", ActionType.BOOK)
+        Action("book", "Book a desk", "Book a workspace", ActionType.BOOK),
+        Action("preset_back15", "Back in 15 min", "Message preset", ActionType.MESSAGE, presetText = "Back in 15 min", iconKey = "clock"),
+        Action("preset_video", "In a video call", "Message preset", ActionType.MESSAGE, presetText = "In a video call", iconKey = "video")
     )
 }

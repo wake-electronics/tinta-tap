@@ -36,7 +36,7 @@ class ActionAdapter(
         val a = items[position]
         holder.name.text = a.name
         holder.subtitle.text = a.subtitle
-        holder.icon.setImageResource(iconFor(a.type))
+        holder.icon.setImageResource(iconFor(a))
         val isLast = a.id == lastUsedId
         holder.badge.visibility = if (isLast) View.VISIBLE else View.GONE
         holder.card.strokeColor = ContextCompat.getColor(
@@ -53,11 +53,15 @@ class ActionAdapter(
 
     fun ids(): List<String> = items.map { it.id }
 
-    private fun iconFor(type: ActionType): Int = when (type) {
-        ActionType.PAGE -> R.drawable.ic_action_home
-        ActionType.DECISION -> R.drawable.ic_action_decide
-        ActionType.MESSAGE -> R.drawable.ic_action_message
-        ActionType.SKETCH -> R.drawable.ic_action_sketch
-        ActionType.BOOK -> R.drawable.ic_action_book
+    private fun iconFor(a: Action): Int = when (a.iconKey) {
+        "clock" -> R.drawable.ic_action_clock
+        "video" -> R.drawable.ic_action_video
+        else -> when (a.type) {
+            ActionType.PAGE -> R.drawable.ic_action_home
+            ActionType.DECISION -> R.drawable.ic_action_decide
+            ActionType.MESSAGE -> R.drawable.ic_action_message
+            ActionType.SKETCH -> R.drawable.ic_action_sketch
+            ActionType.BOOK -> R.drawable.ic_action_book
+        }
     }
 }
