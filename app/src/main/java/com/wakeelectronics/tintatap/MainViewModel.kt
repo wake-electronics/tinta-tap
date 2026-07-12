@@ -48,14 +48,28 @@ class MainViewModel : ViewModel() {
     )
     val log: SharedFlow<String> = _log.asSharedFlow()
 
+    private val _logText = MutableStateFlow("")
+    val logText: StateFlow<String> = _logText.asStateFlow()
+    fun clearLog() { _logText.value = "" }
+
+    private fun emitLog(msg: String) {
+        _log.tryEmit(msg)
+        _logText.value = (_logText.value + msg + "\n").takeLast(8000)
+    }
+
     // Explicit post-success cooldown. Reader mode re-discovers the tag immediately after a
     // successful write; a re-fire would carry a fresh nonce that the firmware cannot dedup, so
     // the guard has to live on the client. (Kept from the original; now in one named place.)
     @Volatile private var lastWriteSuccessMs = 0L
 
-    fun onTag(tag: Tag, request: TapRequest) {
+    /** The request the active detail screen has prepared; a tap fires this. */
+    @Volatile private var pending: TapRequest? = null
+    fun arm(request: TapRequest?) { pending = request }
+
+    fun onTag(tag: Tag) {
+        val request = pending ?: run { emitLog("No action selected"); return }
         if (_state.value is WriteState.Writing) {
-            _log.tryEmit("Busy: still processing previous tap")
+            emitLog("Busy: still processing previous tap")
             return
         }
         if (System.currentTimeMillis() - lastWriteSuccessMs < COOLDOWN_MS) return  // debounce, silent as before
@@ -83,26 +97,26 @@ class MainViewModel : ViewModel() {
     }
 
     private fun performWrite(tag: Tag, req: TapRequest): Boolean {
-        _log.tryEmit("\nTag discovered")
-        _log.tryEmit("  techs=${tag.techList.joinToString()}")
-        _log.tryEmit("  uid=${tag.id.toHex()} (Tag.getId)")
+        emitLog("\nTag discovered")
+        emitLog("  techs=${tag.techList.joinToString()}")
+        emitLog("  uid=${tag.id.toHex()} (Tag.getId)")
 
         val nfcv = NfcV.get(tag)
         if (nfcv == null) {
-            _log.tryEmit("No NfcV on this tag")
+            emitLog("No NfcV on this tag")
             return false
         }
         return try {
             nfcv.connect()
             val writer = NfcVWriter(tag.id) { req -> nfcv.transceive(req) }
             val sys = writer.getSystemInfo()
-            _log.tryEmit("SystemInfo: numBlocks=${sys.numBlocks} bytesPerBlock=${sys.bytesPerBlock}")
-            _log.tryEmit("Command: ${req.opcode.name} (0x${"%02X".format(req.opcode.code)})")
+            emitLog("SystemInfo: numBlocks=${sys.numBlocks} bytesPerBlock=${sys.bytesPerBlock}")
+            emitLog("Command: ${req.opcode.name} (0x${"%02X".format(req.opcode.code)})")
 
             for (w in TintaCommands.dataWrites(req.opcode, req.text, req.email, req.imageBytes)) {
                 val startBlock = w.address / sys.bytesPerBlock
                 val blocks = ceil(w.data.size / sys.bytesPerBlock.toDouble()).toInt()
-                _log.tryEmit(
+                emitLog(
                     "Payload: ${w.data.size} bytes @0x${"%04X".format(w.address)} -> blocks $startBlock..${startBlock + blocks - 1}"
                 )
                 writer.writePayload(startBlock, sys.bytesPerBlock, w.data)
@@ -113,13 +127,13 @@ class MainViewModel : ViewModel() {
             val header = TintaProtocol.buildRequestHeader(req.opcode, req.durationMinutes, unixSeconds, nonce)
             val headerBlocks = ceil(header.size / sys.bytesPerBlock.toDouble()).toInt()
             val headerStart = (sys.numBlocks - headerBlocks).coerceAtLeast(0)
-            _log.tryEmit("Request: ${header.toHex()}")
-            _log.tryEmit("Target: blocks $headerStart..${headerStart + headerBlocks - 1}")
+            emitLog("Request: ${header.toHex()}")
+            emitLog("Target: blocks $headerStart..${headerStart + headerBlocks - 1}")
             writer.writePayload(headerStart, sys.bytesPerBlock, header)
-            _log.tryEmit("Write: OK")
+            emitLog("Write: OK")
             true
         } catch (e: Exception) {
-            _log.tryEmit("ERROR: ${e.javaClass.simpleName}: ${e.message}")
+            emitLog("ERROR: ${e.javaClass.simpleName}: ${e.message}")
             false
         } finally {
             runCatching { nfcv.close() }

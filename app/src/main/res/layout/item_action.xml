@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/tinta_card"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="1dp"
+    app:strokeColor="@color/tinta_border"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="96dp"
+        android:orientation="vertical"
+        android:padding="13dp">
+
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/action_icon_bg"
+            android:padding="7dp"
+            android:importantForAccessibility="no"
+            tools:src="@drawable/ic_action_book" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/tinta_ink"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="Book a desk" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tinta_muted"
+            android:textSize="12sp"
+            tools:text="Book a workspace" />
+
+        <TextView
+            android:id="@+id/tvBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/badge_bg"
+            android:paddingHorizontal="7dp"
+            android:paddingVertical="1dp"
+            android:text="LAST USED"
+            android:textColor="@color/tinta_primary"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:ignore="HardcodedText"
+            tools:visibility="visible" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.wakeelectronics.tintatap.ui.HomeFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_detail"
+            app:destination="@id/actionDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/actionDetailFragment"
+        android:name="com.wakeelectronics.tintatap.ui.ActionDetailFragment"
+        tools:layout="@layout/fragment_detail">
+        <argument android:name="actionId" app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/developerFragment"
+        android:name="com.wakeelectronics.tintatap.ui.DeveloperFragment"
+        android:label="Developer mode"
+        tools:layout="@layout/fragment_developer" />
+</navigation>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/tinta_ground"
+    android:padding="12dp">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnClearLog"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear log"
+        android:textAllCaps="false"
+        tools:ignore="HardcodedText" />
+
+    <ScrollView
+        android:id="@+id/svLog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tinta_ink"
+            android:textIsSelectable="true"
+            android:textSize="12sp"
+            android:typeface="monospace" />
+    </ScrollView>
+</LinearLayout>
