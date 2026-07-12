@@ -1,9 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <!-- Committed light theme — matches the device's light-only web interface. -->
+    <style name="Theme.TintaTap" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/tinta_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/tinta_primary_tint</item>
+        <item name="colorOnPrimaryContainer">@color/tinta_primary</item>
+        <item name="android:colorBackground">@color/tinta_ground</item>
+        <item name="colorSurface">@color/tinta_card</item>
+        <item name="colorSurfaceVariant">@color/tinta_ground</item>
+        <item name="colorOnSurface">@color/tinta_ink</item>
+        <item name="colorOnSurfaceVariant">@color/tinta_muted</item>
+        <item name="colorOutline">@color/tinta_border</item>
+        <item name="android:statusBarColor">@color/tinta_ground</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/tinta_ground</item>
     </style>
-
-    <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
 </resources>

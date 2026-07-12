@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 560" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <style>
+      .layer-label  { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+      .module-name  { font-size: 13px; font-weight: 600; }
+      .module-detail{ font-size: 11px; fill: #444; }
+      .rule-text    { font-size: 10px; fill: #666; }
+    </style>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#aaa"/>
+    </marker>
+  </defs>
+
+  <rect width="1280" height="560" fill="#fafafa" rx="8"/>
+
+  <text x="640" y="37" text-anchor="middle" font-size="20" font-weight="700" fill="#1a1a1a">Tinta Tap — App Layer Model</text>
+  <text x="640" y="54" text-anchor="middle" font-size="13" fill="#888">each layer calls only the one below · Command / Protocol / Transport are pure Kotlin (host-tested)</text>
+
+  <!-- LAYER 1: UI -->
+  <rect x="30" y="64" width="1200" height="104" rx="6" fill="#e8f5e9" stroke="#43a047" stroke-width="1.5"/>
+  <text x="50"   y="83" class="layer-label" fill="#2e7d32">UI</text>
+  <text x="1220" y="83" text-anchor="end" class="rule-text">Android · user interaction, NFC lifecycle</text>
+
+  <rect x="48" y="92" width="575" height="68" rx="4" fill="#fff" stroke="#81c784" stroke-width="1"/>
+  <text x="335" y="110" text-anchor="middle" class="module-name" fill="#2e7d32">MainActivity</text>
+  <text x="58"  y="127" class="module-detail">view wiring, listeners, result overlay + haptics</text>
+  <text x="58"  y="141" class="module-detail">reader-mode lifecycle (onResume / onPause)</text>
+  <text x="58"  y="155" class="module-detail">captures TapRequest on the main thread</text>
+
+  <rect x="637" y="92" width="575" height="68" rx="4" fill="#fff" stroke="#81c784" stroke-width="1"/>
+  <text x="924" y="110" text-anchor="middle" class="module-name" fill="#2e7d32">MainViewModel</text>
+  <text x="647" y="127" class="module-detail">WriteState machine: Idle · Writing · Success · Failure</text>
+  <text x="647" y="141" class="module-detail">runs the write on Dispatchers.IO (coroutine)</text>
+  <text x="647" y="155" class="module-detail">post-write cooldown — reader-mode debounce</text>
+
+  <line x1="640" y1="168" x2="640" y2="178" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- LAYER 2: COMMAND -->
+  <rect x="30" y="178" width="1200" height="64" rx="6" fill="#e3f2fd" stroke="#1e88e5" stroke-width="1.5"/>
+  <text x="50"   y="197" class="layer-label" fill="#1565c0">Command</text>
+  <text x="1220" y="197" text-anchor="end" class="rule-text">pure Kotlin</text>
+
+  <rect x="48" y="204" width="1164" height="30" rx="4" fill="#fff" stroke="#90caf9" stroke-width="1"/>
+  <text x="58"  y="224" class="module-name" fill="#1565c0">nfc/TintaCommand</text>
+  <text x="235" y="224" class="module-detail">opcode + inputs  →  ordered EepromWrite list   (text / email @ 0x0008 · image @ 0x0010)</text>
+
+  <line x1="640" y1="242" x2="640" y2="252" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- LAYER 3: PROTOCOL -->
+  <rect x="30" y="252" width="1200" height="86" rx="6" fill="#fff3e0" stroke="#fb8c00" stroke-width="1.5"/>
+  <text x="50"   y="271" class="layer-label" fill="#e65100">Protocol</text>
+  <text x="1220" y="271" text-anchor="end" class="rule-text">pure Kotlin · the wire contract</text>
+
+  <rect x="48" y="280" width="920" height="50" rx="4" fill="#fff" stroke="#ffcc80" stroke-width="1"/>
+  <text x="58" y="298" class="module-name" fill="#e65100">nfc/TintaProtocol</text>
+  <text x="58" y="314" class="module-detail">Opcode enum · EEPROM map · INKI request header (16 B, little-endian)</text>
+  <text x="58" y="327" class="module-detail">limits: text 232 B · email 63 B · image 481 B</text>
+
+  <rect x="982" y="280" width="230" height="50" rx="4" fill="#ffe0b2" stroke="#fb8c00" stroke-width="1"/>
+  <text x="1097" y="297" text-anchor="middle" class="module-name" fill="#e65100">wire contract</text>
+  <text x="1097" y="312" text-anchor="middle" class="module-detail">PROTOCOL.md ↔ st25_io.h</text>
+  <text x="1097" y="325" text-anchor="middle" class="module-detail">pinned by unit tests</text>
+
+  <line x1="640" y1="338" x2="640" y2="348" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- LAYER 4: TRANSPORT -->
+  <rect x="30" y="348" width="1200" height="92" rx="6" fill="#fce4ec" stroke="#e53935" stroke-width="1.5"/>
+  <text x="50"   y="367" class="layer-label" fill="#c62828">Transport</text>
+  <text x="1220" y="367" text-anchor="end" class="rule-text">pure Kotlin · via an injected seam</text>
+
+  <rect x="48" y="376" width="800" height="56" rx="4" fill="#fff" stroke="#ef9a9a" stroke-width="1"/>
+  <text x="58" y="394" class="module-name" fill="#c62828">nfc/NfcVWriter</text>
+  <text x="58" y="410" class="module-detail">ISO 15693 frame assembly (flags 0x22 · cmd 0x21 write / 0x2B sys-info)</text>
+  <text x="58" y="424" class="module-detail">Write Single Block loop · Get System Info parse</text>
+
+  <rect x="868" y="376" width="344" height="56" rx="4" fill="#fff" stroke="#e53935" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="1040" y="394" text-anchor="middle" class="module-name" fill="#c62828">Iso15693Transceiver</text>
+  <text x="1040" y="410" text-anchor="middle" class="module-detail">the single I/O boundary</text>
+  <text x="1040" y="424" text-anchor="middle" class="module-detail">fake in tests · NfcV in prod</text>
+
+  <line x1="640" y1="440" x2="640" y2="450" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- LAYER 5: ANDROID NFC -->
+  <rect x="30" y="450" width="1200" height="42" rx="6" fill="#eceff1" stroke="#78909c" stroke-width="1.5"/>
+  <text x="50"  y="476" class="layer-label" fill="#37474f">Android NFC</text>
+  <text x="210" y="476" font-size="12" fill="#546e7f">android.nfc.tech.NfcV.transceive()   ·   NfcAdapter reader mode   ·   Tag</text>
+
+  <line x1="640" y1="492" x2="640" y2="502" stroke="#aaa" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+  <!-- DEVICE -->
+  <rect x="30" y="502" width="1200" height="42" rx="6" fill="#efebe9" stroke="#795548" stroke-width="1.5"/>
+  <text x="50"  y="528" class="layer-label" fill="#4e342e">Device</text>
+  <text x="150" y="528" font-size="12" fill="#6d4c41">ST25DV NFC tag (RF-powered by the phone)   →   Tinta firmware applies the command on the next wake</text>
+
+  <!-- SIDE ANNOTATION: pure / host-tested, spans Command..Transport -->
+  <path d="M 26 178 L 18 178 L 18 440 L 26 440" fill="none" stroke="#43a047" stroke-width="1.2"/>
+  <text x="12" y="309" transform="rotate(-90, 12, 309)" text-anchor="middle" font-size="11" font-weight="600" fill="#2e7d32">pure Kotlin — host-tested (17 tests, no phone)</text>
+</svg>

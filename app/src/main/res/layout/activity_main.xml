@@ -1,256 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/tinta_ground">
 
     <LinearLayout
+        android:id="@+id/rootContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvBrand"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="32sp"
-            android:textStyle="bold" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/tinta_ground"
+            app:titleCentered="true"
+            app:titleTextColor="@color/tinta_ink" />
 
-        <HorizontalScrollView
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:fillViewport="true"
-            android:scrollbars="none">
-
-            <com.google.android.material.button.MaterialButtonToggleGroup
-                android:id="@+id/toggleCommand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:checkedButton="@id/btnCmdPage0"
-                app:selectionRequired="true"
-                app:singleSelection="true">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCmdPage0"
-                    android:layout_width="140dp"
-                    android:layout_height="92dp"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/command_button_bg"
-                    android:text="Page 0"
-                    android:textAllCaps="false"
-                    android:textColor="@color/command_button_text"
-                    android:textSize="18sp"
-                    app:cornerRadius="14dp"
-                    app:strokeColor="@color/command_button_stroke"
-                    app:strokeWidth="2dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCmdDecisionMaker"
-                    android:layout_width="170dp"
-                    android:layout_height="92dp"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/command_button_bg"
-                    android:text="Decision\nMaker"
-                    android:textAllCaps="false"
-                    android:textColor="@color/command_button_text"
-                    android:textSize="18sp"
-                    app:cornerRadius="14dp"
-                    app:strokeColor="@color/command_button_stroke"
-                    app:strokeWidth="2dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCmdTextMessage"
-                    android:layout_width="170dp"
-                    android:layout_height="92dp"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/command_button_bg"
-                    android:text="Text\nMessage"
-                    android:textAllCaps="false"
-                    android:textColor="@color/command_button_text"
-                    android:textSize="18sp"
-                    app:cornerRadius="14dp"
-                    app:strokeColor="@color/command_button_stroke"
-                    app:strokeWidth="2dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCmdDrawImage"
-                    android:layout_width="170dp"
-                    android:layout_height="92dp"
-                    android:layout_marginEnd="8dp"
-                    android:backgroundTint="@color/command_button_bg"
-                    android:text="Draw\nImage"
-                    android:textAllCaps="false"
-                    android:textColor="@color/command_button_text"
-                    android:textSize="18sp"
-                    app:cornerRadius="14dp"
-                    app:strokeColor="@color/command_button_stroke"
-                    app:strokeWidth="2dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCmdBookSeat"
-                    android:layout_width="170dp"
-                    android:layout_height="92dp"
-                    android:backgroundTint="@color/command_button_bg"
-                    android:text="Book\nSeat"
-                    android:textAllCaps="false"
-                    android:textColor="@color/command_button_text"
-                    android:textSize="18sp"
-                    app:cornerRadius="14dp"
-                    app:strokeColor="@color/command_button_stroke"
-                    app:strokeWidth="2dp" />
-            </com.google.android.material.button.MaterialButtonToggleGroup>
-        </HorizontalScrollView>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilTextMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:hint="Message for ePaper"
-            android:visibility="gone"
-            app:counterEnabled="true"
-            app:counterMaxLength="232">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etTextMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:maxLength="232"
-                android:maxLines="4" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Booking email input, shown only when Book Seat is selected -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilBookingEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:hint="Your email address"
-            android:visibility="gone">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etBookingEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Drawing canvas for image NFC transfer, shown only when Draw Image is selected -->
-        <LinearLayout
-            android:id="@+id/llDrawImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <com.wakeelectronics.tintatap.DrawingCanvasView
-                android:id="@+id/drawingCanvas"
-                android:layout_width="310dp"
-                android:layout_height="310dp"
-                android:layout_gravity="center_horizontal" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDrawModeToggle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:text="Draw"
-                    android:textAllCaps="false" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBrushS"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:text="S"
-                    android:textAllCaps="false" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBrushM"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:text="M"
-                    android:textAllCaps="false" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnBrushL"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:text="L"
-                    android:textAllCaps="false" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnInvertCanvas"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:text="Inv"
-                    android:textAllCaps="false" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnUndo"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:text="Undo"
-                    android:textAllCaps="false" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnClearCanvas"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Clear"
-                    android:textAllCaps="false" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvTapHint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tap phone to tag"
-            android:textSize="16sp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnClearLog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Clear log" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
-
-            <TextView
-                android:id="@+id/tvLog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textIsSelectable="true"
-                android:typeface="monospace" />
-
-        </ScrollView>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph" />
     </LinearLayout>
 
     <TextView
@@ -259,12 +36,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:background="#CCB00020"
+        android:background="@color/tinta_red"
         android:gravity="center"
         android:padding="24dp"
-        android:text="No Success - Try again!"
-        android:textColor="#FFFFFFFF"
-        android:textSize="34sp"
+        android:textColor="@color/white"
+        android:textSize="30sp"
         android:textStyle="bold"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:ignore="HardcodedText" />
 </FrameLayout>
