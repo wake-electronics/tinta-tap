@@ -7,9 +7,19 @@
     android:background="@color/tinta_ground"
     android:paddingHorizontal="16dp">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvActions"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
+        tools:listitem="@layout/item_action" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:paddingVertical="10dp"
         android:text="Your actions · long-press to reorder"
         android:textAllCaps="true"
@@ -17,12 +27,4 @@
         android:textSize="12sp"
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvActions"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="16dp"
-        tools:listitem="@layout/item_action" />
 </LinearLayout>
