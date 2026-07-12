@@ -2,4 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Tinta palette — mirrors the device web interface (webserver_scaffold.c) -->
+    <color name="tinta_ground">#F5F7FA</color>
+    <color name="tinta_card">#FFFFFF</color>
+    <color name="tinta_border">#D7DDE5</color>
+    <color name="tinta_border_strong">#C4CCD7</color>
+    <color name="tinta_ink">#1F2937</color>
+    <color name="tinta_muted">#5B6675</color>
+    <color name="tinta_faint">#8A94A3</color>
+    <color name="tinta_primary">#0B5ED7</color>
+    <color name="tinta_primary_tint">#EEF4FE</color>
+    <color name="tinta_green">#0F7B0F</color>
+    <color name="tinta_orange">#B56900</color>
+    <color name="tinta_red">#B42318</color>
 </resources>
