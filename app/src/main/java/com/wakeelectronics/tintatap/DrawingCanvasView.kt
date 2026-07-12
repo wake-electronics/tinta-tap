@@ -108,6 +108,7 @@ class DrawingCanvasView @JvmOverloads constructor(
 
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
+                parent?.requestDisallowInterceptTouchEvent(true)  // stop the scroll view stealing the stroke
                 pushUndo()
                 lastPaintCol = -1
                 lastPaintRow = -1
@@ -117,6 +118,7 @@ class DrawingCanvasView @JvmOverloads constructor(
                 paintAtEvent(event, cellW, cellH)
             }
             MotionEvent.ACTION_UP -> {
+                parent?.requestDisallowInterceptTouchEvent(false)
                 lastPaintCol = -1
                 lastPaintRow = -1
                 lastTouchedIdx = -1
