@@ -26,6 +26,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.wakeelectronics.tintatap.data.ActionStore
+import com.wakeelectronics.tintatap.nfc.TintaProtocol
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -90,7 +91,10 @@ class MainActivity : AppCompatActivity() {
         when (state) {
             WriteState.Idle -> {}
             WriteState.Writing -> hideResultOverlay()
-            is WriteState.Success -> { showResultOverlay("Sent!", true); haptic(true); viewModel.onResultConsumed() }
+            is WriteState.Success -> {
+                val msg = if (state.opcode == TintaProtocol.Opcode.BOOK_SEAT) "Booked!" else "Sent!"
+                showResultOverlay(msg, true); haptic(true); viewModel.onResultConsumed()
+            }
             WriteState.Failure -> { showResultOverlay("No Success - Try again!", false); haptic(false); viewModel.onResultConsumed() }
         }
     }

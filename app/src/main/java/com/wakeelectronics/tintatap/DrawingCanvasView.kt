@@ -49,6 +49,9 @@ class DrawingCanvasView @JvmOverloads constructor(
     /** Brush radius in grid cells. 1 = single cell, 2 = ~5 cells, 3 = ~21 cells. */
     var brushRadius: Int = 2
 
+    /** Invoked whenever the pixels change — lets the detail screen re-arm the NFC request. */
+    var onChange: (() -> Unit)? = null
+
     private val undoStack = ArrayDeque<BooleanArray>(UNDO_LEVELS)
     private var lastTouchedIdx = -1
 
@@ -142,7 +145,7 @@ class DrawingCanvasView @JvmOverloads constructor(
                 lastPaintRow = row
             }
         }
-        if (changed) invalidate()
+        if (changed) { invalidate(); onChange?.invoke() }
         lastTouchedIdx = -1
     }
 
@@ -189,6 +192,7 @@ class DrawingCanvasView @JvmOverloads constructor(
         pushUndo()
         pixels.fill(false)
         invalidate()
+        onChange?.invoke()
     }
 
     /** Invert all pixels. Pushes undo snapshot first. */
@@ -196,6 +200,7 @@ class DrawingCanvasView @JvmOverloads constructor(
         pushUndo()
         for (i in pixels.indices) pixels[i] = !pixels[i]
         invalidate()
+        onChange?.invoke()
     }
 
     /** Undo the last draw/erase/clear/invert action. */
@@ -204,6 +209,7 @@ class DrawingCanvasView @JvmOverloads constructor(
         val snapshot = undoStack.removeLast()
         snapshot.copyInto(pixels)
         invalidate()
+        onChange?.invoke()
     }
 
     val canUndo: Boolean get() = undoStack.isNotEmpty()

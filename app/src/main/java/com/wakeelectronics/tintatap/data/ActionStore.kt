@@ -30,6 +30,18 @@ class ActionStore(context: Context) {
         get() = prefs.getString(KEY_LAST, null)
         set(value) { prefs.edit().putString(KEY_LAST, value).apply() }
 
+    var bookingEmail: String
+        get() = prefs.getString("booking_email", "").orEmpty()
+        set(value) { prefs.edit().putString("booking_email", value).apply() }
+
+    var bookingDurationMin: Int
+        get() = prefs.getInt("booking_duration", 60)
+        set(value) { prefs.edit().putInt("booking_duration", value).apply() }
+
+    var messageText: String
+        get() = prefs.getString("message_text", "").orEmpty()
+        set(value) { prefs.edit().putString("message_text", value).apply() }
+
     fun addPreset(action: Action) {
         val arr = JSONArray()
         (loadPresets() + action).forEach { p ->
