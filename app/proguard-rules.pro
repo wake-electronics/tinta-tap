@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Navigation instantiates fragments by class name from nav_graph.xml (reflection).
+-keep public class * extends androidx.fragment.app.Fragment
+
+# ViewModelProvider instantiates ViewModels via their no-arg constructor (reflection).
+-keep class * extends androidx.lifecycle.ViewModel { <init>(); }
