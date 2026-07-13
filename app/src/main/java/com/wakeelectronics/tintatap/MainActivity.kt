@@ -112,7 +112,9 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         nfcAdapter?.enableReaderMode(
-            this, { tag -> viewModel.onTag(tag) },
+            // The reader callback fires on a binder thread; confine onTag to main so the
+            // ViewModel's Writing/cooldown guard stays single-threaded (matches onNewIntent).
+            this, { tag -> runOnUiThread { viewModel.onTag(tag) } },
             NfcAdapter.FLAG_READER_NFC_V or NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK, null
         )
     }
