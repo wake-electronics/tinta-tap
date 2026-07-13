@@ -65,4 +65,27 @@ class TintaProtocolTest {
         assertEquals(0, b.last().toInt())
     }
 
+    @Test
+    fun nullTerminated_never_splits_a_utf8_character() {
+        // "ä" is 2 bytes (0xC3 0xA4). A cut at maxLen=1 must drop the whole char, not half of it.
+        val cut = TintaProtocol.nullTerminated("ä", 1)
+        assertArrayEquals(byteArrayOf(0), cut)  // partial char removed, terminator only
+
+        // maxLen=2 keeps the full char plus terminator.
+        val whole = TintaProtocol.nullTerminated("ä", 2)
+        assertArrayEquals(byteArrayOf(0xC3.toByte(), 0xA4.toByte(), 0), whole)
+
+        // For every cut through a mixed ASCII/emoji string the payload must stay valid UTF-8:
+        // decoding then re-encoding reproduces the exact bytes (a split char would not round-trip),
+        // and the result is always a prefix of the input.
+        val emoji = "A😀"  // 'A' (1 byte) + U+1F600 (4 bytes) = 5 bytes
+        for (max in 1..5) {
+            val out = TintaProtocol.nullTerminated(emoji, max)
+            val payload = out.copyOf(out.size - 1)  // drop the null terminator
+            val decoded = String(payload, Charsets.UTF_8)
+            assertArrayEquals("invalid UTF-8 at max=$max", decoded.toByteArray(Charsets.UTF_8), payload)
+            assert(emoji.startsWith(decoded)) { "payload is not a prefix of the input at max=$max" }
+        }
+    }
+
 }

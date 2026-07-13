@@ -65,7 +65,10 @@ object TintaProtocol {
     /** UTF-8 payload truncated to [maxLen] bytes plus a trailing null terminator. */
     fun nullTerminated(text: String, maxLen: Int): ByteArray {
         val bytes = text.toByteArray(Charsets.UTF_8)
-        val n = minOf(bytes.size, maxLen)
+        var n = minOf(bytes.size, maxLen)
+        // If the cut fell inside a multi-byte character, back off to its start so the
+        // firmware never receives a truncated UTF-8 sequence (continuation byte = 10xxxxxx).
+        while (n in 1 until bytes.size && (bytes[n].toInt() and 0xC0) == 0x80) n--
         val out = ByteArray(n + 1)  // last byte stays 0 = terminator
         bytes.copyInto(out, 0, 0, n)
         return out
