@@ -2,11 +2,21 @@ version: 2
 updates:
   - package-ecosystem: gradle
     directory: "/"
+    target-branch: "develop"
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    groups:
+      # Batch safe upgrades into one PR to cut noise; major bumps still arrive as
+      # individual PRs so a breaking upgrade is flagged and reviewed on its own.
+      gradle-minor-and-patch:
+        update-types: ["minor", "patch"]
 
   - package-ecosystem: github-actions
     directory: "/"
+    target-branch: "develop"
     schedule:
       interval: weekly
+    groups:
+      github-actions:
+        patterns: ["*"]
