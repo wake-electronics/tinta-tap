@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.wakeelectronics.tintatap"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.wakeelectronics.tintatap"
