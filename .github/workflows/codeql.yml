@@ -1,3 +1,5 @@
+# Security code scanning (SAST) for Kotlin — the ADVANCED CodeQL setup (this file).
+# Distinct from GitHub's managed "Code Quality" feature, which is a separate dynamic run.
 name: CodeQL
 
 on:
