@@ -25,7 +25,8 @@ object TintaProtocol {
         PAGE_0(0x11),
         PAGE_2(0x12),
         TEXT(0x20),
-        DRAW_IMAGE(0x30);
+        DRAW_IMAGE(0x30),
+        TRACK_VALUE(0x50);
 
         companion object {
             fun fromCode(code: Int): Opcode? = entries.firstOrNull { it.code == code }

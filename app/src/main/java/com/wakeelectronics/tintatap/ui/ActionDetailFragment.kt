@@ -1,6 +1,7 @@
 package com.wakeelectronics.tintatap.ui
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -52,6 +53,7 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
         } else {
             when (action.type) {
                 ActionType.MESSAGE -> setupMessage(view)
+                ActionType.VALUE -> setupValue(view)
                 ActionType.SKETCH -> setupSketch(view)
                 ActionType.PAGE, ActionType.TRACKER -> setupInstant(view)
             }
@@ -82,6 +84,17 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
             tvPreview.text = text
             rearm()
         }
+    }
+
+    // A value reuses the message card with a decimal keyboard: same one field, and the
+    // firmware reads it from the same EEPROM address. The dot is what the server wants,
+    // but a German keyboard offers a comma, so both are accepted and normalised here.
+    private fun setupValue(view: View) {
+        view.findViewById<View>(R.id.cardMessage).visibility = View.VISIBLE
+        etMessage.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
+        etMessage.hint = "Value, e.g. 4.85"
+        etMessage.setText("")
+        etMessage.doAfterTextChanged { rearm() }
     }
 
     private fun setupSketch(view: View) {
@@ -121,6 +134,7 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
     private fun rearm() {
         val req = when (action.type) {
             ActionType.MESSAGE -> TapRequest(action.opcode, text = etMessage.text?.toString().orEmpty())
+            ActionType.VALUE -> TapRequest(action.opcode, text = valueText())
             ActionType.SKETCH -> TapRequest(action.opcode, imageBytes = canvas.pack())
             else -> TapRequest(action.opcode)
         }
@@ -136,6 +150,7 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
         ActionType.SKETCH -> "Send sketch"
         ActionType.PAGE -> "Show Home"
         ActionType.TRACKER -> "Show the series"
+        ActionType.VALUE -> "Add " + valueText()
     }
 
     override fun onDestroyView() {
@@ -143,4 +158,7 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
         // Keep the request armed so a tap still fires while you're on Developer mode / the grid.
         if (::canvas.isInitialized) canvas.onChange = null
     }
+
+    /** "4,85" and "4.85" mean the same thing to a person; the server only takes the dot. */
+    private fun valueText(): String = etMessage.text?.toString().orEmpty().trim().replace(',', '.')
 }

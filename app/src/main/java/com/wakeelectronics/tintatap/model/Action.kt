@@ -3,7 +3,7 @@ package com.wakeelectronics.tintatap.model
 import com.wakeelectronics.tintatap.nfc.TintaProtocol.Opcode
 
 /** What a home-screen action does, in user terms. Maps 1:1 to a wire opcode. */
-enum class ActionType { PAGE, TRACKER, MESSAGE, SKETCH }
+enum class ActionType { PAGE, TRACKER, MESSAGE, SKETCH, VALUE }
 
 /**
  * One tappable action on the home grid. Built-ins are fixed; presets are user-created
@@ -25,6 +25,7 @@ data class Action(
             ActionType.TRACKER -> Opcode.PAGE_2
             ActionType.MESSAGE -> Opcode.TEXT
             ActionType.SKETCH -> Opcode.DRAW_IMAGE
+            ActionType.VALUE -> Opcode.TRACK_VALUE
         }
 
     /** Instant actions arm immediately; the rest open a detail with inputs. */
@@ -35,6 +36,7 @@ object DefaultActions {
     val list: List<Action> = listOf(
         Action("calendar", "Calendar", "The day from Nextcloud", ActionType.PAGE),
         Action("tracker", "Ronja", "Weight over time", ActionType.TRACKER, iconKey = "chart"),
+        Action("value", "Add a value", "Weigh in, tap, done", ActionType.VALUE, iconKey = "chart"),
         Action("message", "Message", "Write text to show", ActionType.MESSAGE),
         Action("sketch", "Sketch", "Draw an image", ActionType.SKETCH),
         Action("preset_back15", "Back in 15 min", "Message preset", ActionType.MESSAGE, presetText = "Back in 15 min", iconKey = "clock"),

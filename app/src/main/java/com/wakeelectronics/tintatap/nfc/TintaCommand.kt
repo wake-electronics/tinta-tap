@@ -27,7 +27,7 @@ object TintaCommands {
         text: String = "",
         imageBytes: ByteArray? = null
     ): List<EepromWrite> = when (opcode) {
-        Opcode.TEXT ->
+        Opcode.TEXT, Opcode.TRACK_VALUE ->
             listOf(EepromWrite(TEXT_ADDR, TintaProtocol.nullTerminated(text, TEXT_MAX_LEN)))
 
         Opcode.DRAW_IMAGE -> {

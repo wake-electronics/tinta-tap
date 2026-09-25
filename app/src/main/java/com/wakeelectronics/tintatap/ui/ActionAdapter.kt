@@ -62,7 +62,7 @@ class ActionAdapter(
         "info" -> R.drawable.ic_action_info
         else -> when (a.type) {
             ActionType.PAGE -> R.drawable.ic_action_home
-            ActionType.TRACKER -> R.drawable.ic_action_decide
+            ActionType.TRACKER, ActionType.VALUE -> R.drawable.ic_action_decide
             ActionType.MESSAGE -> R.drawable.ic_action_message
             ActionType.SKETCH -> R.drawable.ic_action_sketch
         }
