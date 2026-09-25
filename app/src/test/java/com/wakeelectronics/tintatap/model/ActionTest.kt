@@ -12,19 +12,17 @@ class ActionTest {
     @Test
     fun every_type_maps_to_its_wire_opcode() {
         assertEquals(Opcode.PAGE_0, action(ActionType.PAGE).opcode)
-        assertEquals(Opcode.DECISION, action(ActionType.DECISION).opcode)
+        assertEquals(Opcode.PAGE_2, action(ActionType.TRACKER).opcode)
         assertEquals(Opcode.TEXT, action(ActionType.MESSAGE).opcode)
         assertEquals(Opcode.DRAW_IMAGE, action(ActionType.SKETCH).opcode)
-        assertEquals(Opcode.BOOK_SEAT, action(ActionType.BOOK).opcode)
     }
 
     @Test
     fun only_page_and_decision_are_instant() {
         assertTrue(action(ActionType.PAGE).isInstant)
-        assertTrue(action(ActionType.DECISION).isInstant)
+        assertTrue(action(ActionType.TRACKER).isInstant)
         assertFalse(action(ActionType.MESSAGE).isInstant)
         assertFalse(action(ActionType.SKETCH).isInstant)
-        assertFalse(action(ActionType.BOOK).isInstant)
     }
 
     @Test

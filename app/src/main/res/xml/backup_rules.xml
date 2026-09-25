@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
    Auto Backup rules for API <= 30 (fullBackupContent).
-   The TintaActions prefs hold the user's booking email; keep it off cloud/adb backup.
+   The TintaActions prefs hold user content (messages, sketches); keep it off cloud/adb backup.
    https://developer.android.com/guide/topics/data/autobackup
 -->
 <full-backup-content>

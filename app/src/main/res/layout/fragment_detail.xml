@@ -13,41 +13,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- BOOK -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardBook"
-            style="@style/TintaCard"
-            android:visibility="gone">
-
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="vertical" android:padding="14dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilEmail"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:hint="Booking email"
-                    tools:ignore="HardcodedText">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etEmail"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress" android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView style="@style/TintaEyebrow" android:layout_marginTop="10dp" android:text="Duration"
-                    tools:ignore="HardcodedText" />
-
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/cgDuration"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"
-                    app:singleSelection="true" app:selectionRequired="true">
-                    <com.google.android.material.chip.Chip android:id="@+id/chip30" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" android:text="30 min" tools:ignore="HardcodedText" />
-                    <com.google.android.material.chip.Chip android:id="@+id/chip60" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" android:text="60 min" tools:ignore="HardcodedText" />
-                    <com.google.android.material.chip.Chip android:id="@+id/chip120" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" android:text="2 h" tools:ignore="HardcodedText" />
-                    <com.google.android.material.chip.Chip android:id="@+id/chipAllDay" style="@style/Widget.Material3.Chip.Filter" android:layout_width="wrap_content" android:layout_height="wrap_content" android:checkable="true" android:text="All day" tools:ignore="HardcodedText" />
-                </com.google.android.material.chip.ChipGroup>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
         <!-- MESSAGE input -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardMessage" style="@style/TintaCard" android:visibility="gone">

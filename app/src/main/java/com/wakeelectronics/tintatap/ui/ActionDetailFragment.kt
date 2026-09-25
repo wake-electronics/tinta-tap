@@ -26,8 +26,6 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
     private lateinit var store: ActionStore
     private lateinit var action: Action
 
-    private lateinit var etEmail: TextInputEditText
-    private lateinit var cgDuration: ChipGroup
     private lateinit var etMessage: TextInputEditText
     private lateinit var tvPreview: TextView
     private lateinit var canvas: DrawingCanvasView
@@ -43,8 +41,6 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
         store.lastUsedId = id
         (requireActivity() as AppCompatActivity).supportActionBar?.title = action.name
 
-        etEmail = view.findViewById(R.id.etEmail)
-        cgDuration = view.findViewById(R.id.cgDuration)
         etMessage = view.findViewById(R.id.etMessage)
         tvPreview = view.findViewById(R.id.tvPreview)
         canvas = view.findViewById(R.id.drawingCanvas)
@@ -55,10 +51,9 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
             setupPlaceholder(view)
         } else {
             when (action.type) {
-                ActionType.BOOK -> setupBook(view)
                 ActionType.MESSAGE -> setupMessage(view)
                 ActionType.SKETCH -> setupSketch(view)
-                ActionType.PAGE, ActionType.DECISION -> setupInstant(view)
+                ActionType.PAGE, ActionType.TRACKER -> setupInstant(view)
             }
             rearm()
         }
@@ -73,16 +68,6 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
             else -> "Not available yet — needs a Tinta firmware update."
         }
         viewModel.arm(null)
-    }
-
-    private fun setupBook(view: View) {
-        view.findViewById<View>(R.id.cardBook).visibility = View.VISIBLE
-        etEmail.setText(store.bookingEmail)
-        cgDuration.check(chipFor(store.bookingDurationMin))
-        etEmail.doAfterTextChanged { store.bookingEmail = it?.toString()?.trim().orEmpty(); rearm() }
-        cgDuration.setOnCheckedStateChangeListener { _, _ ->
-            store.bookingDurationMin = selectedDuration(); rearm()
-        }
     }
 
     private fun setupMessage(view: View) {
@@ -126,7 +111,7 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
 
     private fun setupInstant(view: View) {
         view.findViewById<View>(R.id.cardInstant).visibility = View.VISIBLE
-        tvInstantDesc.text = if (action.type == ActionType.DECISION) {
+        tvInstantDesc.text = if (action.type == ActionType.TRACKER) {
             "The Tinta shows a random pick on its own screen — it decides, the app can't predict it."
         } else {
             "Shows the Tinta's home screen — the same as pressing its first button."
@@ -135,7 +120,6 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
 
     private fun rearm() {
         val req = when (action.type) {
-            ActionType.BOOK -> TapRequest(action.opcode, email = store.bookingEmail, durationMinutes = store.bookingDurationMin)
             ActionType.MESSAGE -> TapRequest(action.opcode, text = etMessage.text?.toString().orEmpty())
             ActionType.SKETCH -> TapRequest(action.opcode, imageBytes = canvas.pack())
             else -> TapRequest(action.opcode)
@@ -145,32 +129,13 @@ class ActionDetailFragment : Fragment(R.layout.fragment_detail) {
     }
 
     private fun pendingLabel(): String = when (action.type) {
-        ActionType.BOOK -> "Book " + durationLabel(store.bookingDurationMin)
         ActionType.MESSAGE -> {
             val t = etMessage.text?.toString().orEmpty()
             "Show “" + (if (t.length > 18) t.take(18) + "…" else t) + "”"
         }
         ActionType.SKETCH -> "Send sketch"
         ActionType.PAGE -> "Show Home"
-        ActionType.DECISION -> "Roll a decision"
-    }
-
-    private fun chipFor(min: Int): Int = when (min) {
-        30 -> R.id.chip30
-        120 -> R.id.chip120
-        1440 -> R.id.chipAllDay
-        else -> R.id.chip60
-    }
-
-    private fun selectedDuration(): Int = when (cgDuration.checkedChipId) {
-        R.id.chip30 -> 30
-        R.id.chip120 -> 120
-        R.id.chipAllDay -> 1440
-        else -> 60
-    }
-
-    private fun durationLabel(min: Int): String = when (min) {
-        30 -> "30 min"; 120 -> "2 h"; 1440 -> "all day"; else -> "60 min"
+        ActionType.TRACKER -> "Show the series"
     }
 
     override fun onDestroyView() {

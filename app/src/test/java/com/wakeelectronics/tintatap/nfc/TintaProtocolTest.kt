@@ -12,9 +12,9 @@ class TintaProtocolTest {
 
     @Test
     fun header_layout_matches_protocol() {
-        // duration 60 (0x003C), time 0x11223344, opcode BOOK_SEAT (0x40)
+        // duration 60 (0x003C), time 0x11223344, opcode TEXT (0x20)
         val h = TintaProtocol.buildRequestHeader(
-            opcode = TintaProtocol.Opcode.BOOK_SEAT,
+            opcode = TintaProtocol.Opcode.TEXT,
             durationMinutes = 60,
             unixSeconds = 0x11223344,
             nonce = nonce
@@ -22,7 +22,7 @@ class TintaProtocolTest {
         val expected = byteArrayOf(
             'I'.code.toByte(), 'N'.code.toByte(), 'K'.code.toByte(), 'I'.code.toByte(), // magic
             0x01,                                                                        // version
-            0x40,                                                                        // opcode
+            0x20,                                                                        // opcode
             0x3C, 0x00,                                                                  // duration LE
             0x44, 0x33, 0x22, 0x11,                                                      // unixSeconds LE
             0xDE.toByte(), 0xAD.toByte(), 0xBE.toByte(), 0xEF.toByte()                   // nonce
@@ -35,10 +35,9 @@ class TintaProtocolTest {
     fun opcode_values_are_stable() {
         assertEquals(0x01, TintaProtocol.Opcode.REFRESH.code)
         assertEquals(0x11, TintaProtocol.Opcode.PAGE_0.code)
-        assertEquals(0x12, TintaProtocol.Opcode.DECISION.code)
+        assertEquals(0x12, TintaProtocol.Opcode.PAGE_2.code)
         assertEquals(0x20, TintaProtocol.Opcode.TEXT.code)
         assertEquals(0x30, TintaProtocol.Opcode.DRAW_IMAGE.code)
-        assertEquals(0x40, TintaProtocol.Opcode.BOOK_SEAT.code)
         assertEquals(TintaProtocol.Opcode.TEXT, TintaProtocol.Opcode.fromCode(0x20))
         assertNull(TintaProtocol.Opcode.fromCode(0x99))
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
    Data extraction rules for API 31+ (cloud backup + device transfer).
-   The TintaActions prefs hold the user's booking email; exclude it from both.
+   The TintaActions prefs hold user content (messages, sketches); exclude it from both.
    https://developer.android.com/about/versions/12/backup-restore#xml-changes
 -->
 <data-extraction-rules>

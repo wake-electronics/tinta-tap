@@ -13,21 +13,19 @@ object TintaProtocol {
 
     // ST25DV user-EEPROM byte addresses.
     const val NONCE_ADDR = 0x0004
-    const val TEXT_ADDR = 0x0008   // text payload, and booking email
+    const val TEXT_ADDR = 0x0008   // text payload
     const val IMAGE_ADDR = 0x0010  // 62x62 1-bit image
 
     // Payload limits (must match firmware).
     const val TEXT_MAX_LEN = 232
-    const val EMAIL_MAX_LEN = 63
     const val IMAGE_DATA_LEN = 481
 
     enum class Opcode(val code: Int) {
         REFRESH(0x01),
         PAGE_0(0x11),
-        DECISION(0x12),
+        PAGE_2(0x12),
         TEXT(0x20),
-        DRAW_IMAGE(0x30),
-        BOOK_SEAT(0x40);
+        DRAW_IMAGE(0x30);
 
         companion object {
             fun fromCode(code: Int): Opcode? = entries.firstOrNull { it.code == code }

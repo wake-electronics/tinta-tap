@@ -25,7 +25,7 @@
             android:background="@drawable/action_icon_bg"
             android:padding="7dp"
             android:importantForAccessibility="no"
-            tools:src="@drawable/ic_action_book" />
+            tools:src="@drawable/ic_action_decide" />
 
         <TextView
             android:id="@+id/tvName"

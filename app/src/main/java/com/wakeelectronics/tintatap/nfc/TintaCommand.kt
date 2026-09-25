@@ -25,17 +25,10 @@ object TintaCommands {
     fun dataWrites(
         opcode: Opcode,
         text: String = "",
-        email: String = "",
         imageBytes: ByteArray? = null
     ): List<EepromWrite> = when (opcode) {
         Opcode.TEXT ->
             listOf(EepromWrite(TEXT_ADDR, TintaProtocol.nullTerminated(text, TEXT_MAX_LEN)))
-
-        Opcode.BOOK_SEAT -> {
-            val addr = email.trim()
-            require(addr.isNotEmpty()) { "No booking email configured" }
-            listOf(EepromWrite(TEXT_ADDR, TintaProtocol.nullTerminated(addr, EMAIL_MAX_LEN)))
-        }
 
         Opcode.DRAW_IMAGE -> {
             val img = requireNotNull(imageBytes) { "No image data" }

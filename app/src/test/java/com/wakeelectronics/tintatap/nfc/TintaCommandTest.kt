@@ -24,18 +24,6 @@ class TintaCommandTest {
     }
 
     @Test
-    fun bookSeat_writes_trimmed_email_to_text_area() {
-        val w = TintaCommands.dataWrites(TintaProtocol.Opcode.BOOK_SEAT, email = "  a@b.co  ")
-        assertEquals(TintaProtocol.TEXT_ADDR, w[0].address)
-        assertArrayEquals("a@b.co".toByteArray() + 0.toByte(), w[0].data)
-    }
-
-    @Test(expected = IllegalArgumentException::class)
-    fun bookSeat_without_email_is_rejected() {
-        TintaCommands.dataWrites(TintaProtocol.Opcode.BOOK_SEAT, email = "   ")
-    }
-
-    @Test
     fun drawImage_writes_pixels_to_image_area() {
         val img = ByteArray(TintaProtocol.IMAGE_DATA_LEN) { 0x5A.toByte() }
         val w = TintaCommands.dataWrites(TintaProtocol.Opcode.DRAW_IMAGE, imageBytes = img)

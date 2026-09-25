@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
             WriteState.Idle -> {}
             WriteState.Writing -> hideResultOverlay()
             is WriteState.Success -> {
-                val msg = if (state.opcode == TintaProtocol.Opcode.BOOK_SEAT) "Booked!" else "Sent!"
+                val msg = "Sent!"
                 showResultOverlay(msg, true); haptic(true); viewModel.onResultConsumed()
             }
             WriteState.Failure -> { showResultOverlay("No Success - Try again!", false); haptic(false); viewModel.onResultConsumed() }

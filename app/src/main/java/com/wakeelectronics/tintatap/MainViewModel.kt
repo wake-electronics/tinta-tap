@@ -32,7 +32,6 @@ sealed interface WriteState {
 class TapRequest(
     val opcode: TintaProtocol.Opcode,
     val text: String = "",
-    val email: String = "",
     val imageBytes: ByteArray? = null,
     val durationMinutes: Int = 60
 )
