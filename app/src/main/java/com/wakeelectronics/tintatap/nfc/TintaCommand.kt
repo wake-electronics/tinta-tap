@@ -1,6 +1,5 @@
 package com.wakeelectronics.tintatap.nfc
 
-import com.wakeelectronics.tintatap.nfc.TintaProtocol.EMAIL_MAX_LEN
 import com.wakeelectronics.tintatap.nfc.TintaProtocol.IMAGE_ADDR
 import com.wakeelectronics.tintatap.nfc.TintaProtocol.Opcode
 import com.wakeelectronics.tintatap.nfc.TintaProtocol.TEXT_ADDR

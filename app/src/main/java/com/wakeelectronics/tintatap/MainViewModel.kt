@@ -112,7 +112,7 @@ class MainViewModel : ViewModel() {
             emitLog("SystemInfo: numBlocks=${sys.numBlocks} bytesPerBlock=${sys.bytesPerBlock}")
             emitLog("Command: ${req.opcode.name} (0x${"%02X".format(req.opcode.code)})")
 
-            for (w in TintaCommands.dataWrites(req.opcode, req.text, req.email, req.imageBytes)) {
+            for (w in TintaCommands.dataWrites(req.opcode, req.text, req.imageBytes)) {
                 val startBlock = w.address / sys.bytesPerBlock
                 val blocks = ceil(w.data.size / sys.bytesPerBlock.toDouble()).toInt()
                 emitLog(
